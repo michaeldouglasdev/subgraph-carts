@@ -29,7 +29,7 @@ export class Datasource extends IDatasource {
 
   private createAxiosClient(): AxiosInstance {
     return Axios.create({
-      baseURL: 'http://localhost:3000',
+      baseURL: process.env.DATABASE_URL,
       responseType: 'json' as const,
       headers: {
         'Content-Type': 'application/json',
