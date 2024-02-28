@@ -1,0 +1,30 @@
+{
+  "name": "subgraph-products",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Michael Douglas Costa Silveira <mdsilveira@rd.com.br>",
+  "license": "MIT",
+  "scripts": {
+    "codegen": "graphql-codegen",
+    "start": "tsx watch server.ts",
+    "publish-schema": "rover subgraph publish md-federation@current --name products --schema ./src/schema.graphql --routing-url https://subgraph-products-0c26c79c403a.herokuapp.com/",
+    "deploy": "git add .; git commit -m 'updating'; git push heroku main; yarn publish-schema"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.0",
+    "@apollo/subgraph": "^2.7.1",
+    "@faker-js/faker": "^8.4.0",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "json-server": "^1.0.0-alpha.23",
+    "tsx": "^4.7.0"
+  }
+}
