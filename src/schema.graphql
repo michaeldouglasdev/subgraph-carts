@@ -1,0 +1,54 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@external", "@requires", "@provides"])
+
+type Query {
+  cart(cartId: String!): Cart
+}
+
+input SimpleProductInput {
+  sku: String!
+  qty: Int!
+}
+
+input CartInput {
+  cartId: String
+  product: SimpleProductInput!
+}
+type Mutation {
+  addProductToCart(data: CartInput!): AddProductToCartResponse!
+}
+
+interface MutationResponse {
+  code: Int!
+  message: String!
+  success: Boolean!
+}
+
+type AddProductToCartResponse implements MutationResponse {
+  code: Int!
+  message: String!
+  success: Boolean!
+  cart: Cart
+}
+
+type Cart @key(fields: "id") {
+  id: ID!
+  items: [CartItem]!
+  #totalPrice: Price! @requires(fields: "items { product { price { value }}}")
+}
+
+type CartItem @key(fields: "id") {
+  id: ID!
+  product: Product!
+  qty: Int!
+  #totalPrice: Price! @requires(fields: "product { price { value }}")
+}
+
+type Product @key(fields: "sku", resolvable: false) {
+  sku: String!
+#  price: Price! @external
+}
+
+type Price @shareable {
+  value: Int!
+  label: String!
+}
